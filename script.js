@@ -6,7 +6,6 @@ function cadUser(){
     let age = document.getElementById("age")
     let cpf = document.getElementById("cpf")
 
-    //Verifica se existe algum campo em branco
     // if (!vrfEmpty(name, email, user, pass, age, cpf)){
     //     return alert("Cadastro não efetuado, favor informar todos os dados requeridos!")
     // } else {
@@ -23,22 +22,25 @@ function cadUser(){
     //         }
     //     }
     // }
-
+    
+    //Verifica se existe algum campo em branco
     if (!vrfEmpty(name, email, user, pass, age, cpf)) {
         return alert("Cadastro não efetuado, favor informar todos os dados!")
     }
 
+    //Verifica se o usuário é maior de 18 anos
     if(age.value < 18) {
         clearField(name, email, user, pass, age, cpf)
         return alert("É necessário ter 18 anos ou mais para realizar o cadastro!")
     }
-
+    //Verifica se o CPF digitado é válido
     if(!vrfCPF(cpf.value)) {
         cpf.value = ""
         cpf.focus()
         return alert("Número de CPF informado é inválido!")
     }
 
+    //Faz o cadastro do usuario caso tenha passado em todas a verificações
     let newUser = new Usuario(name, email, user, pass, age, cpf)
     newUser.save()
     
@@ -46,7 +48,7 @@ function cadUser(){
     clearField(name, email, user, pass, age, cpf) 
 }
 
-//Verifica se algum campo obrigatório foi deixado em branco
+//Function que erifica se algum campo obrigatório foi deixado em branco
 function vrfEmpty(){
     for(let c = 0; c < arguments.length; c++){
         if(arguments[c].value == ""){
@@ -58,7 +60,7 @@ function vrfEmpty(){
     }
 }
 
-//Limpa os campos após o cadastro dos usuários
+//Function que limpa os campos após o cadastro dos usuários
 function clearField(){
     for(let c = 0; c < arguments.length; c++){
         arguments[c].value = ""
@@ -66,7 +68,7 @@ function clearField(){
     arguments[0].focus()
 }
 
-//Verifica se o CPF Digitado é válido
+//Function que verifica se o CPF Digitado é válido
 function vrfCPF(cpf) {
 
     if(cpf.length < 11){
@@ -108,7 +110,7 @@ function vrfCPF(cpf) {
 
 }
 
-//Organiza e grava os dados digitados
+//Constructor que organiza e grava os dados digitados
 let Usuario = function(name, email, user, pass, age, cpf){
     this.id = Usuario.usuarios.length + 1
     this.name = name.value
@@ -126,7 +128,7 @@ let Usuario = function(name, email, user, pass, age, cpf){
 Usuario.usuarios = [] //Armazena os dados dos usuários
 
 
-//Mostra os usuários cadastrados na tela
+//Funtion que mostra os usuários cadastrados na tela
 Usuario.showUsers = function(){
     let arrayUsers = Usuario.usuarios
 
