@@ -7,31 +7,47 @@ function cadUser(){
     let cpf = document.getElementById("cpf")
 
     //Verifica se existe algum campo em branco
-    if (!vrfField(name, email, user, pass, age, cpf)){
-        return alert("Cadastro não efetuado, favor informar todos os dados requeridos!")
-    } else {
-        if(age.value < 18){
-            clearField(name, email, user, pass, age, cpf)
-            return alert("É necessário ter mais de 18 anos para se cadastrar!")
-        } else {
-            if(!vrfCPF(cpf.value)){
-                cpf.value = ""
-                cpf.focus()
-                return alert("O CPF inserido é inválido!")
-            } else {
-                alert("Cadastro efetuado com sucesso!")
-            }
-        }
+    // if (!vrfEmpty(name, email, user, pass, age, cpf)){
+    //     return alert("Cadastro não efetuado, favor informar todos os dados requeridos!")
+    // } else {
+    //     if(age.value < 18){
+    //         clearField(name, email, user, pass, age, cpf)
+    //         return alert("É necessário ter mais de 18 anos para se cadastrar!")
+    //     } else {
+    //         if(!vrfCPF(cpf.value)){
+    //             cpf.value = ""
+    //             cpf.focus()
+    //             return alert("O CPF inserido é inválido!")
+    //         } else {
+    //             alert("Cadastro efetuado com sucesso!")
+    //         }
+    //     }
+    // }
+
+    if (!vrfEmpty(name, email, user, pass, age, cpf)) {
+        return alert("Cadastro não efetuado, favor informar todos os dados!")
+    }
+
+    if(age.value < 18) {
+        clearField(name, email, user, pass, age, cpf)
+        return alert("É necessário ter 18 anos ou mais para realizar o cadastro!")
+    }
+
+    if(!vrfCPF(cpf.value)) {
+        cpf.value = ""
+        cpf.focus()
+        return alert("Número de CPF informado é inválido!")
     }
 
     let newUser = new Usuario(name, email, user, pass, age, cpf)
     newUser.save()
     
+    alert("Cadastro efetuado com sucesso!")
     clearField(name, email, user, pass, age, cpf) 
 }
 
 //Verifica se algum campo obrigatório foi deixado em branco
-function vrfField(){
+function vrfEmpty(){
     for(let c = 0; c < arguments.length; c++){
         if(arguments[c].value == ""){
             arguments[c].focus()
@@ -57,9 +73,9 @@ function vrfCPF(cpf) {
         return false
     }
 
-    //Bloco 1 - Este bloco calcula o primeir digito verificador    
-    let acml = 0                //Acumulador
-    let mult = 10               //multiplicador
+    //Bloco 1 - Este bl acml = 0oco calcula o primeir digito verificador    
+    let acml = 0       //Acumulador
+    let mult = 10      //multiplicador
 
     for(let ctrl = 0; ctrl < 9; ctrl++){
         acml += cpf[ctrl] * mult
